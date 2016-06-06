@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2015 the original author or authors.
+ * Copyright 2002-2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ import org.springframework.util.MultiValueMap;
  * lookups between file extensions and MediaTypes in both directions.
  *
  * <p>Initially created with a map of file extensions and media types.
- * Subsequently sub-classes can use {@link #addMapping} to add more mappings.
+ * Subsequently subclasses can use {@link #addMapping} to add more mappings.
  *
  * @author Rossen Stoyanchev
  * @since 3.2
@@ -96,10 +96,10 @@ public class MappingMediaTypeFileExtensionResolver implements MediaTypeFileExten
 
 	/**
 	 * Use this method for a reverse lookup from extension to MediaType.
-	 * @return a MediaType for the key or {@code null}
+	 * @return a MediaType for the key, or {@code null} if none found
 	 */
 	protected MediaType lookupMediaType(String extension) {
-		return this.mediaTypes.get(extension);
+		return this.mediaTypes.get(extension.toLowerCase(Locale.ENGLISH));
 	}
 
 }

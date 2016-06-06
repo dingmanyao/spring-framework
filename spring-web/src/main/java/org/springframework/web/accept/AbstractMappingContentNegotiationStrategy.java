@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2015 the original author or authors.
+ * Copyright 2002-2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,10 +43,8 @@ import org.springframework.web.context.request.NativeWebRequest;
  * @author Rossen Stoyanchev
  * @since 3.2
  */
-public abstract class AbstractMappingContentNegotiationStrategy
-		extends MappingMediaTypeFileExtensionResolver
+public abstract class AbstractMappingContentNegotiationStrategy extends MappingMediaTypeFileExtensionResolver
 		implements ContentNegotiationStrategy {
-
 
 	/**
 	 * Create an instance with the given map of file extensions and media types.
@@ -60,7 +58,17 @@ public abstract class AbstractMappingContentNegotiationStrategy
 	public List<MediaType> resolveMediaTypes(NativeWebRequest webRequest)
 			throws HttpMediaTypeNotAcceptableException {
 
-		String key = getMediaTypeKey(webRequest);
+		return resolveMediaTypeKey(webRequest, getMediaTypeKey(webRequest));
+	}
+
+	/**
+	 * An alternative to {@link #resolveMediaTypes(NativeWebRequest)} that accepts
+	 * an already extracted key.
+	 * @since 3.2.16
+	 */
+	public List<MediaType> resolveMediaTypeKey(NativeWebRequest webRequest, String key)
+			throws HttpMediaTypeNotAcceptableException {
+
 		if (StringUtils.hasText(key)) {
 			MediaType mediaType = lookupMediaType(key);
 			if (mediaType != null) {
@@ -75,6 +83,7 @@ public abstract class AbstractMappingContentNegotiationStrategy
 		}
 		return Collections.emptyList();
 	}
+
 
 	/**
 	 * Extract a key from the request to use to look up media types.
